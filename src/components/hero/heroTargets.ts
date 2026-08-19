@@ -63,14 +63,16 @@ function pointInPolygon(pt: [number, number], poly: [number, number][]): boolean
   return inside
 }
 
-function buildEdgesByProximity(positions: THREE.Vector3[], k: number): [number, number][] {
+function buildEdgesByProximity(positions: THREE.Vector3[], k: number, maxDist?: number): [number, number][] {
   const edgeSet = new Set<string>()
   const edges: [number, number][] = []
+  const maxDistSq = maxDist ? maxDist * maxDist : Infinity
   for (let i = 0; i < positions.length; i++) {
     const dists: { j: number; d: number }[] = []
     for (let j = 0; j < positions.length; j++) {
       if (i === j) continue
-      dists.push({ j, d: positions[i].distanceToSquared(positions[j]) })
+      const d = positions[i].distanceToSquared(positions[j])
+      if (d <= maxDistSq) dists.push({ j, d })
     }
     dists.sort((a, b) => a.d - b.d)
     for (let n = 0; n < Math.min(k, dists.length); n++) {
@@ -86,7 +88,7 @@ function buildEdgesByProximity(positions: THREE.Vector3[], k: number): [number, 
   return edges
 }
 
-/** Prototipo A — los nodos se ensamblan formando el escudo (silueta + agujero del galón). */
+/** El escudo — nodos distribuidos sobre la silueta y el agujero del galón (geometría exacta del spec). */
 export function buildShieldTargets(count: number): TargetField {
   const outerCount = Math.round(count * 0.42)
   const holeCount = Math.round(count * 0.28)
@@ -114,26 +116,19 @@ export function buildShieldTargets(count: number): TargetField {
   return { positions, edges: buildEdgesByProximity(positions, 2) }
 }
 
-/** Prototipo B — Sustrato puro: red cristalina abstracta, sin relación con el logo. */
-export function buildCrystalTargets(count: number): TargetField {
-  const radius = 1.3
-  const offset = 2 / count
-  const increment = Math.PI * (3 - Math.sqrt(5))
+/**
+ * El túnel — campo disperso de nodos entre la cámara y el escudo, estático en el
+ * mundo (es la cámara la que avanza a través de él). radius crece con la distancia
+ * para dar sensación de vacío que se abre, no de tubo cerrado.
+ */
+export function buildTunnelField(count: number, zNear: number, zFar: number, radius: number): TargetField {
   const positions: THREE.Vector3[] = []
   for (let i = 0; i < count; i++) {
-    const y = i * offset - 1 + offset / 2
-    const r = Math.sqrt(Math.max(0, 1 - y * y))
-    const phi = i * increment
-    positions.push(new THREE.Vector3(Math.cos(phi) * r * radius, y * radius, Math.sin(phi) * r * radius))
+    const z = zNear + Math.random() * (zFar - zNear)
+    const depthFrac = (zNear - z) / (zNear - zFar)
+    const r = radius * (0.3 + depthFrac * 0.9) * (0.4 + Math.random() * 0.9)
+    const angle = Math.random() * Math.PI * 2
+    positions.push(new THREE.Vector3(Math.cos(angle) * r, Math.sin(angle) * r * 0.6, z))
   }
-  return { positions, edges: buildEdgesByProximity(positions, 3) }
-}
-
-export function scatterPositions(count: number, radius: number): THREE.Vector3[] {
-  const pts: THREE.Vector3[] = []
-  for (let i = 0; i < count; i++) {
-    const dir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize()
-    pts.push(dir.multiplyScalar(radius * (0.7 + Math.random() * 0.6)))
-  }
-  return pts
+  return { positions, edges: buildEdgesByProximity(positions, 2, radius * 0.9) }
 }

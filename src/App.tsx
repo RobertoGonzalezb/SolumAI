@@ -1,11 +1,10 @@
-import { useState } from 'react'
-import HeroPlaceholder from './components/hero/HeroPlaceholder'
+import type { CSSProperties } from 'react'
+import Hero from './components/hero/Hero'
+import { FLIGHT_DURATION_MS } from './components/hero/FlightHero'
 import SolumLogo from './components/brand/SolumLogo'
 import './App.css'
 
 function App() {
-  const [heroMode, setHeroMode] = useState<'shield' | 'crystal'>('shield')
-
   return (
     <>
       <header className="nav">
@@ -15,26 +14,9 @@ function App() {
         </a>
       </header>
 
-      <div className="hero-compare" role="group" aria-label="Comparar prototipos de hero">
-        <button
-          type="button"
-          className={heroMode === 'shield' ? 'active' : ''}
-          onClick={() => setHeroMode('shield')}
-        >
-          A · Escudo ensamblado
-        </button>
-        <button
-          type="button"
-          className={heroMode === 'crystal' ? 'active' : ''}
-          onClick={() => setHeroMode('crystal')}
-        >
-          B · Sustrato puro
-        </button>
-      </div>
-
       <section className="hero">
-        <HeroPlaceholder mode={heroMode} />
-        <div className="hero-content">
+        <Hero />
+        <div className="hero-content" style={{ '--reveal-delay': `${FLIGHT_DURATION_MS - 300}ms` } as CSSProperties}>
           <p className="eyebrow">Solum AI</p>
           <h1>
             Sistemas de IA que sostienen
