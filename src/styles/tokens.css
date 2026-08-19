@@ -1,0 +1,43 @@
+@font-face {
+  font-family: 'Archivo Variable';
+  src: url('/fonts/Archivo-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Variable';
+  src: url('/fonts/JetBrainsMono-Variable.woff2') format('woff2');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Solum — identidad de marca aprobada (handoff design_handoff_solum_identity) */
+  --color-graphite-900: #0e0d0a;
+  --color-graphite-800: #131209;
+  --color-line: #241f19;
+  --color-copper-500: #c79063;
+  --color-copper-700: #5e4a36;
+  --color-bone-100: #efe7dc;
+  --color-bone-400: #b3ab9e;
+  --color-bone-600: #8c8578;
+
+  --bg: var(--color-graphite-900);
+  --surface: var(--color-graphite-800);
+  --text: var(--color-bone-100);
+  --text-soft: var(--color-bone-400);
+  --text-tertiary: var(--color-bone-600);
+  --accent: var(--color-copper-500);
+  --accent-connector: var(--color-copper-700);
+  --line: var(--color-line);
+
+  --font-display: 'Archivo Variable', -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Archivo Variable', -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Consolas, monospace;
+
+  --radius-mark: 0.25em;
+  --container: 1180px;
+}

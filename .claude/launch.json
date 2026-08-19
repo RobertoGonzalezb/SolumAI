@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "solum-dev",
+      "runtimeExecutable": "/Users/alanis/claude/.claude/dev-wrapper.sh",
+      "runtimeArgs": [],
+      "port": 5173
+    }
+  ]
+}
