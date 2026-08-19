@@ -104,11 +104,11 @@ export default function FlightHero() {
   return (
     <>
       <instancedMesh ref={tunnelMeshRef} args={[undefined, undefined, TUNNEL_NODES]}>
-        <sphereGeometry args={[0.032, 8, 8]} />
+        <sphereGeometry args={[0.026, 8, 8]} />
         <meshStandardMaterial
           color="#c79063"
           emissive="#c79063"
-          emissiveIntensity={0.6}
+          emissiveIntensity={0.4}
           roughness={0.5}
           metalness={0.4}
         />

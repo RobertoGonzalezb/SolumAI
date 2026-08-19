@@ -126,7 +126,7 @@ export function buildTunnelField(count: number, zNear: number, zFar: number, rad
   for (let i = 0; i < count; i++) {
     const z = zNear + Math.random() * (zFar - zNear)
     const depthFrac = (zNear - z) / (zNear - zFar)
-    const r = radius * (0.3 + depthFrac * 0.9) * (0.4 + Math.random() * 0.9)
+    const r = radius * (0.55 + depthFrac * 0.75) * (0.4 + Math.random() * 0.9)
     const angle = Math.random() * Math.PI * 2
     positions.push(new THREE.Vector3(Math.cos(angle) * r, Math.sin(angle) * r * 0.6, z))
   }

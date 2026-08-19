@@ -14,8 +14,8 @@ export default function Hero() {
           <directionalLight position={[-3, -1, -2]} intensity={0.35} color="#c79063" />
           <FlightHero />
           <EffectComposer>
-            <DepthOfField focusDistance={0.015} focalLength={0.045} bokehScale={4} />
-            <Bloom intensity={0.4} luminanceThreshold={0.2} luminanceSmoothing={0.5} mipmapBlur />
+            <DepthOfField focusDistance={0.02} focalLength={0.08} bokehScale={1.3} />
+            <Bloom intensity={0.25} luminanceThreshold={0.35} luminanceSmoothing={0.6} mipmapBlur />
             <Vignette eskil={false} offset={0.25} darkness={0.85} />
           </EffectComposer>
         </Suspense>
