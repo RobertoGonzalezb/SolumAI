@@ -27,7 +27,15 @@ function hasWebGL(): boolean {
 // la escena (ver isCompact).
 function computeEnable3D(): boolean {
   if (typeof window === 'undefined') return false
-  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches && hasWebGL()
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const webgl = hasWebGL()
+  if (reduced || !webgl) {
+    console.info(
+      `[Solum] Vista estática activa — reduce motion: ${reduced}, WebGL disponible: ${webgl}. ` +
+        'Esto es intencional (spec 03-PROMPT-scroll-3d.md §8), no un error.'
+    )
+  }
+  return !reduced && webgl
 }
 
 function computeIsCompact(): boolean {
