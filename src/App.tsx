@@ -1,5 +1,6 @@
 import ScrollNarrative from './components/scroll3d/ScrollNarrative'
 import SolumLogo from './components/brand/SolumLogo'
+import ContactSection from './components/contact/ContactSection'
 import './App.css'
 
 function App() {
@@ -19,10 +20,7 @@ function App() {
         <h2>Próximamente</h2>
       </section>
 
-      <section id="contacto" className="section">
-        <p className="eyebrow">Contacto</p>
-        <h2>Próximamente</h2>
-      </section>
+      <ContactSection />
     </>
   )
 }
