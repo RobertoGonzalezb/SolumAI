@@ -8,13 +8,13 @@ const CAL_LINK = 'robertito-g-az0gey'
  * comunicación: carga la página de reserva tal cual, funciona igual en
  * cualquier navegador.
  *
- * Probé la ruta /embed (pensada para incrustar) porque sí respeta
- * theme=dark ahí adentro -- pero sin el protocolo JS de Cal, la tarjeta de
- * reserva nunca termina de cargar contenido real, solo el fondo oscuro. La
- * ruta de perfil normal sí carga el contenido siempre, pero mantiene su
- * tarjeta clara incluso con theme=dark. El marco (.cal-embed-frame) está
- * diseñado a propósito en tono claro para que esa tarjeta se sienta
- * intencional, no como un error de tema.
+ * theme=dark en la URL es una preferencia por visitante (depende de que el
+ * navegador guarde/lea ese estado), justo lo que Safari bloquea para
+ * iframes de terceros -- por eso funcionaba en Chrome pero no en Safari.
+ * El tema oscuro real viene del ajuste de cuenta en Cal.com (Settings → My
+ * Account → Appearance → Theme del booking page = Dark), que renderiza
+ * oscuro para todos sin depender de nada del visitante. El parámetro queda
+ * aquí solo como respaldo si ese ajuste llegara a cambiar.
  */
 export default function CalEmbed() {
   return (
