@@ -1,6 +1,11 @@
 .narrative {
   position: relative;
+  /* vh en Safari móvil se calcula sobre el viewport más grande posible (barra
+     de Safari colapsada), no el visible en cada momento -- dvh sigue el
+     viewport real y coincide con lo que ya mide window.innerHeight en JS.
+     vh queda como respaldo para navegadores sin soporte de dvh. */
   height: 620vh;
+  height: 620dvh;
   background: var(--bg);
 }
 
@@ -8,6 +13,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
   display: flex;
   overflow: hidden;
 }
@@ -135,6 +141,7 @@
 
 .narrative-block {
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -243,17 +250,22 @@
 .narrative.is-compact .narrative-left {
   width: 100%;
   height: 42vh;
+  height: 42dvh;
 }
 
 .narrative.is-compact .narrative-right {
   width: 100%;
   height: 58vh;
+  height: 58dvh;
 }
 
 .narrative.is-compact .narrative-block {
   /* % no resuelve aquí: el padre (.narrative-track) no tiene alto definido.
-     58vh calca el alto real de .narrative-right en compacto. */
+     58vh/58dvh calca el alto real de .narrative-right en compacto -- pero el
+     tick() de ScrollNarrative igual mide el alto real vía clientHeight, así
+     que el texto queda correcto aunque este valor no calce al pixel. */
   height: 58vh;
+  height: 58dvh;
   gap: 0.9rem;
   padding: 0 1.25rem;
 }
