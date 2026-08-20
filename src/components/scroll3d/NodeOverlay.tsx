@@ -5,37 +5,36 @@ interface NodeOverlayProps {
 }
 
 /**
- * Sistema de ilustración "Nodo" — mismas posiciones que la rejilla 80×80 del
- * spec (02-sistema-ilustracion-1c.md), pero con más carácter que un círculo
- * plano: caja redondeada + el chevron del escudo como glifo interior en los
- * nodos cobre (entrada/salida), y un rombo en los nodos hueso (sistemas del
- * cliente). Referencia pedida: diagramas de flujo tipo n8n, pero sin salirnos
- * de los dos colores de marca -- el "carácter" viene de la forma y la
- * profundidad, no de introducir un arcoíris de íconos.
+ * Sistema de ilustración "Nodo". La versión original del spec conecta las
+ * 4 posiciones con dos líneas rectas que se cruzan en el centro (una cruz
+ * literal). Aquí las mismas 4 posiciones se conectan en cadena -- entrada→
+ * izquierda→salida→derecha→entrada -- formando el contorno de un rombo con
+ * diagonales de 45°, no un cruce central. Sigue leyéndose como entrada→
+ * proceso→salida (spec §4), pero como una red conectada, no como una cruz.
  */
 export default function NodeOverlay({ ref }: NodeOverlayProps) {
   return (
     <div className="act-overlay-position" aria-hidden="true">
       <div ref={ref} className="act-overlay">
-        <svg viewBox="-14 -16 108 108" width="100%" height="100%">
-          <g className="node-connectors" stroke="#5e4a36" strokeWidth="2" fill="none">
-            <line x1="36" y1="6" x2="36" y2="26" />
-            <line x1="36" y1="34" x2="36" y2="52" />
-            <line x1="6" y1="38" x2="26" y2="38" />
-            <line x1="46" y1="38" x2="66" y2="38" />
+        <svg viewBox="-4 -12 88 88" width="100%" height="100%">
+          <g className="node-connectors" stroke="#5e4a36" strokeWidth="2" fill="none" strokeLinecap="round">
+            <line x1="40" y1="4" x2="10" y2="34" />
+            <line x1="10" y1="34" x2="40" y2="64" />
+            <line x1="40" y1="64" x2="70" y2="34" />
+            <line x1="70" y1="34" x2="40" y2="4" />
           </g>
           <g className="node-joints" fill="#5e4a36">
-            <circle cx="36" cy="6" r="2" />
-            <circle cx="36" cy="52" r="2" />
-            <circle cx="6" cy="38" r="2" />
-            <circle cx="66" cy="38" r="2" />
+            <circle cx="40" cy="4" r="2" />
+            <circle cx="10" cy="34" r="2" />
+            <circle cx="40" cy="64" r="2" />
+            <circle cx="70" cy="34" r="2" />
           </g>
 
           <g className="node-shapes">
             {/* Entrada — cobre, paso automatizado */}
-            <rect x="18" y="-10" width="20" height="20" rx="5" fill="#c79063" />
+            <rect x="30" y="-6" width="20" height="20" rx="5" fill="#c79063" />
             <path
-              d="M22,4.5 L28,-1.5 L34,4.5"
+              d="M34,8.5 L40,2.5 L46,8.5"
               stroke="#131209"
               strokeWidth="2.2"
               strokeLinecap="round"
@@ -44,42 +43,42 @@ export default function NodeOverlay({ ref }: NodeOverlayProps) {
             />
 
             {/* Izquierda — hueso, sistema del cliente */}
-            <rect x="-6" y="30" width="16" height="16" rx="4" fill="#efe7dc" />
+            <rect x="2" y="26" width="16" height="16" rx="4" fill="#efe7dc" />
             <rect
-              x="-0.3"
-              y="36.7"
+              x="5.7"
+              y="29.7"
               width="7"
               height="7"
               rx="1.5"
-              transform="rotate(45 3.2 40.2)"
-              fill="none"
-              stroke="#131209"
-              strokeWidth="1.6"
-            />
-
-            {/* Derecha — hueso, sistema del cliente */}
-            <rect x="58" y="30" width="16" height="16" rx="4" fill="#efe7dc" />
-            <rect
-              x="63.7"
-              y="36.7"
-              width="7"
-              height="7"
-              rx="1.5"
-              transform="rotate(45 67.2 40.2)"
+              transform="rotate(45 9.2 33.2)"
               fill="none"
               stroke="#131209"
               strokeWidth="1.6"
             />
 
             {/* Salida — cobre, paso automatizado */}
-            <rect x="18" y="52" width="20" height="20" rx="5" fill="#c79063" />
+            <rect x="30" y="54" width="20" height="20" rx="5" fill="#c79063" />
             <path
-              d="M22,66.5 L28,60.5 L34,66.5"
+              d="M34,68.5 L40,62.5 L46,68.5"
               stroke="#131209"
               strokeWidth="2.2"
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
+            />
+
+            {/* Derecha — hueso, sistema del cliente */}
+            <rect x="62" y="26" width="16" height="16" rx="4" fill="#efe7dc" />
+            <rect
+              x="65.7"
+              y="29.7"
+              width="7"
+              height="7"
+              rx="1.5"
+              transform="rotate(45 69.2 33.2)"
+              fill="none"
+              stroke="#131209"
+              strokeWidth="1.6"
             />
           </g>
         </svg>

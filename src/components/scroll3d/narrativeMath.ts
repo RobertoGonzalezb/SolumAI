@@ -52,7 +52,7 @@ export const COUNTERS: CounterSpec[] = [
 export interface Frame {
   p: number
   sealed: boolean
-  assembly: number // 0→1, con easing, irreversible una vez llega a 1
+  assembly: number // 0→1, con easing — reversible: sigue a p en ambas direcciones
   layerOpacity: number
   sceneRotX: number // radianes
   sceneRotY: number // radianes
@@ -69,15 +69,18 @@ export interface Frame {
 
 const DEG = Math.PI / 180
 
-/** Mantiene el estado que no puede retroceder: sellado del escudo y contadores. */
+/**
+ * Los contadores no pueden retroceder (spec: nunca bajan). El ensamblaje del
+ * escudo sí es reversible ahora, a pedido explícito -- se arma bajando y se
+ * desarma subiendo, en cualquier dirección, siguiendo a p en tiempo real.
+ */
 export class NarrativeDriver {
-  private assemblyPeak = 0
   private counterPeaks: Record<string, number> = Object.fromEntries(COUNTERS.map((c) => [c.key, 0]))
 
   update(p: number): Frame {
-    this.assemblyPeak = Math.max(this.assemblyPeak, seg(p, 0, 0.3))
-    const sealed = this.assemblyPeak >= 1
-    const a = outCubic(this.assemblyPeak)
+    const assembly = seg(p, 0, 0.3)
+    const sealed = assembly >= 1
+    const a = outCubic(assembly)
 
     let sceneRotX: number
     let sceneRotY: number
