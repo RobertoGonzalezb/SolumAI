@@ -1,0 +1,261 @@
+.narrative {
+  position: relative;
+  height: 620vh;
+  background: var(--bg);
+}
+
+.narrative-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.narrative-left {
+  position: relative;
+  width: 46%;
+  height: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.narrative-left canvas {
+  display: block;
+}
+
+.act-overlay-position {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.act-overlay {
+  width: min(34vw, 300px);
+  height: min(34vw, 300px);
+  opacity: 0;
+}
+
+.screen-rect {
+  position: absolute;
+  border: 1.5px solid var(--color-bone-100);
+  background: rgba(239, 231, 220, 0.07);
+}
+
+.screen-rect--desktop {
+  width: 78%;
+  height: 62%;
+  top: 10%;
+  left: 0;
+  border-radius: 9px;
+}
+
+.screen-rect--app {
+  width: 42%;
+  height: 46%;
+  bottom: 4%;
+  left: 6%;
+  border-radius: 7px;
+}
+
+.screen-rect--mobile {
+  width: 26%;
+  height: 58%;
+  bottom: 0;
+  right: 4%;
+  border-radius: 11px;
+}
+
+.act-rail {
+  position: absolute;
+  left: clamp(1.5rem, 4vw, 3rem);
+  bottom: clamp(1.5rem, 6vh, 3rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.act-rail li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.act-rail-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--text-tertiary);
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.act-rail li.active {
+  color: var(--text);
+}
+
+.act-rail li.active .act-rail-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.narrative-right {
+  position: relative;
+  width: 54%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.narrative-track {
+  will-change: transform;
+}
+
+.narrative-block {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.3rem;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+  max-width: 42rem;
+}
+
+.narrative-block h2 {
+  font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.16;
+}
+
+.narrative-body {
+  color: var(--text-soft);
+  font-size: 1.05rem;
+  max-width: 36rem;
+}
+
+.narrative-bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.narrative-bullets li {
+  position: relative;
+  padding-left: 1.3rem;
+  font-size: 1.02rem;
+  color: var(--text);
+}
+
+.narrative-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+}
+
+.narrative-counters {
+  display: flex;
+  gap: 2.4rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-top: 0.3rem;
+}
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.counter-value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.counter-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+.narrative-cta {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  background: var(--accent);
+  color: var(--color-graphite-900);
+  padding: 0.85rem 1.5rem;
+  text-decoration: none;
+}
+
+.narrative-fineprint {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 899px) {
+  .narrative-sticky {
+    position: static;
+    height: auto;
+    flex-direction: column;
+  }
+}
+
+/* --- Fallback estático (reduced-motion / < 900px) --- */
+
+.narrative-fallback {
+  padding: 6rem clamp(1.5rem, 4vw, 4rem) 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.narrative-fallback-mark {
+  display: flex;
+  justify-content: center;
+}
+
+.narrative-fallback-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.narrative-fallback-block h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  line-height: 1.18;
+}
