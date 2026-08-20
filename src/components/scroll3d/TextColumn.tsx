@@ -1,6 +1,7 @@
 import type { Ref } from 'react'
 
 interface TextColumnProps {
+  rightRef?: Ref<HTMLDivElement>
   trackRef?: Ref<HTMLDivElement>
   registerCounter: (key: string, el: HTMLSpanElement | null) => void
 }
@@ -11,9 +12,9 @@ interface TextColumnProps {
  * tick de rAF) — nunca con estado de React, para que el scroll siga al dedo
  * del usuario sin el retraso de un render.
  */
-export default function TextColumn({ trackRef, registerCounter }: TextColumnProps) {
+export default function TextColumn({ rightRef, trackRef, registerCounter }: TextColumnProps) {
   return (
-    <div className="narrative-right">
+    <div className="narrative-right" ref={rightRef}>
       <div className="narrative-track" ref={trackRef}>
         <div className="narrative-block">
           <p className="eyebrow">01 · El problema</p>

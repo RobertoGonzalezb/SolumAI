@@ -222,15 +222,58 @@
   color: var(--text-tertiary);
 }
 
-@media (max-width: 899px) {
-  .narrative-sticky {
-    position: static;
-    height: auto;
-    flex-direction: column;
-  }
+/* --- Compacto: mismo WebGL, layout apilado en vez de 46/54 --- */
+
+.narrative.is-compact .narrative-sticky {
+  flex-direction: column;
 }
 
-/* --- Fallback estático (reduced-motion / < 900px) --- */
+.narrative.is-compact .narrative-left {
+  width: 100%;
+  height: 42vh;
+}
+
+.narrative.is-compact .narrative-right {
+  width: 100%;
+  height: 58vh;
+}
+
+.narrative.is-compact .narrative-block {
+  /* % no resuelve aquí: el padre (.narrative-track) no tiene alto definido.
+     58vh calca el alto real de .narrative-right en compacto. */
+  height: 58vh;
+  gap: 0.9rem;
+  padding: 0 1.25rem;
+}
+
+.narrative.is-compact .narrative-block h2 {
+  font-size: clamp(1.3rem, 5.5vw, 1.7rem);
+}
+
+.narrative.is-compact .narrative-body,
+.narrative.is-compact .narrative-bullets li {
+  font-size: 0.92rem;
+}
+
+.narrative.is-compact .narrative-counters {
+  gap: 1.5rem;
+}
+
+.narrative.is-compact .counter-value {
+  font-size: 2rem;
+}
+
+.narrative.is-compact .act-rail {
+  bottom: 0.9rem;
+  left: 1.25rem;
+  gap: 0.4rem;
+}
+
+.narrative.is-compact .act-rail li {
+  font-size: 0.62rem;
+}
+
+/* --- Fallback estático (reduced-motion) --- */
 
 .narrative-fallback {
   padding: 6rem clamp(1.5rem, 4vw, 4rem) 4rem;

@@ -10,18 +10,27 @@ import './narrative.css'
 const LazyNarrativeCanvas = lazy(() => import('./NarrativeCanvas'))
 
 const INITIAL_FRAME: Frame = new NarrativeDriver().update(0)
+const COMPACT_BREAKPOINT = 780
 
+// Solo prefers-reduced-motion saca el WebGL por completo. El ancho ya no
+// decide "3D sí/no" -- decide qué tan liviana es la escena (ver isCompact).
 function computeEnable3D(): boolean {
   if (typeof window === 'undefined') return false
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  return !reduced && window.innerWidth >= 900
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+function computeIsCompact(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.innerWidth < COMPACT_BREAKPOINT
 }
 
 export default function ScrollNarrative() {
   const [enable3D, setEnable3D] = useState<boolean>(computeEnable3D)
+  const [isCompact, setIsCompact] = useState<boolean>(computeIsCompact)
   const [activeAct, setActiveAct] = useState(0)
 
   const containerRef = useRef<HTMLElement>(null)
+  const rightColRef = useRef<HTMLDivElement>(null)
   const textTrackRef = useRef<HTMLDivElement>(null)
   const nodeOverlayRef = useRef<HTMLDivElement>(null)
   const screensOverlayRef = useRef<HTMLDivElement>(null)
@@ -35,7 +44,10 @@ export default function ScrollNarrative() {
 
   useEffect(() => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => setEnable3D(computeEnable3D())
+    const update = () => {
+      setEnable3D(computeEnable3D())
+      setIsCompact(computeIsCompact())
+    }
     update()
     mql.addEventListener('change', update)
     window.addEventListener('resize', update)
@@ -62,7 +74,8 @@ export default function ScrollNarrative() {
       invalidateRef.current?.()
 
       if (textTrackRef.current) {
-        textTrackRef.current.style.transform = `translateY(-${frame.p * 4 * window.innerHeight}px)`
+        const trackHeight = rightColRef.current?.clientHeight || window.innerHeight
+        textTrackRef.current.style.transform = `translateY(-${frame.p * 4 * trackHeight}px)`
       }
       if (nodeOverlayRef.current) {
         nodeOverlayRef.current.style.opacity = String(frame.nodesOpacity)
@@ -107,17 +120,21 @@ export default function ScrollNarrative() {
   if (!enable3D) return <StaticFallback />
 
   return (
-    <section className="narrative" ref={containerRef}>
+    <section className={`narrative${isCompact ? ' is-compact' : ''}`} ref={containerRef}>
       <div className="narrative-sticky">
         <div className="narrative-left">
           <Suspense fallback={null}>
-            <LazyNarrativeCanvas frameRef={frameRef} invalidateRef={invalidateRef} />
+            <LazyNarrativeCanvas frameRef={frameRef} invalidateRef={invalidateRef} isCompact={isCompact} />
           </Suspense>
           <NodeOverlay ref={nodeOverlayRef} />
           <ScreensOverlay ref={screensOverlayRef} />
           <ActRail activeAct={activeAct} />
         </div>
-        <TextColumn trackRef={textTrackRef} registerCounter={(key, el) => (counterRefs.current[key] = el)} />
+        <TextColumn
+          rightRef={rightColRef}
+          trackRef={textTrackRef}
+          registerCounter={(key, el) => (counterRefs.current[key] = el)}
+        />
       </div>
     </section>
   )
