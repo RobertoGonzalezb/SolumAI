@@ -3,8 +3,13 @@ import { SHIELD_BOX, SHIELD_HOLE, SHIELD_OUTER } from '../../lib/shieldSpec'
 
 // Mismo mapeo a espacio local que se usó para la nube de puntos del hero anterior,
 // para que el tamaño del escudo se sienta consistente en todo el sitio.
+const SHIELD_LOCAL_HEIGHT = 1.9
+
 function toLocal([x, y]: [number, number]): [number, number] {
-  return [((x - 50) / SHIELD_BOX.width) * 2.7, -((y - 54) / SHIELD_BOX.height) * 2.7]
+  return [
+    ((x - 50) / SHIELD_BOX.width) * SHIELD_LOCAL_HEIGHT,
+    -((y - 54) / SHIELD_BOX.height) * SHIELD_LOCAL_HEIGHT,
+  ]
 }
 
 let cached: THREE.ExtrudeGeometry | null = null
@@ -30,7 +35,7 @@ export function getShieldGeometry(): THREE.ExtrudeGeometry {
   holePath.closePath()
   shape.holes.push(holePath)
 
-  const height = 2.7 // alto local del escudo tras toLocal
+  const height = SHIELD_LOCAL_HEIGHT
   const depth = 0.18 * height
   const bevelThickness = Math.min(0.02 * height, depth * 0.4)
 
