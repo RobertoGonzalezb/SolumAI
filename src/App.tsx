@@ -1,5 +1,6 @@
 import ScrollNarrative from './components/scroll3d/ScrollNarrative'
 import SolumLogo from './components/brand/SolumLogo'
+import CaseStudySection from './components/case-study/CaseStudySection'
 import ContactSection from './components/contact/ContactSection'
 import './App.css'
 
@@ -14,12 +15,7 @@ function App() {
       </header>
 
       <ScrollNarrative />
-
-      <section id="caso-de-estudio" className="section">
-        <p className="eyebrow">Caso de estudio</p>
-        <h2>Próximamente</h2>
-      </section>
-
+      <CaseStudySection />
       <ContactSection />
     </>
   )
