@@ -10,12 +10,14 @@ export function outCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3)
 }
 
+// Las etiquetas visibles viven en i18n/translations.ts (actRail), indexadas
+// por posición -- esto solo define los rangos de scroll de cada acto.
 export const ACTS = [
-  { key: 'problema', label: 'Problema', from: 0, to: 0.22 },
-  { key: 'sistema', label: 'Sistema', from: 0.22, to: 0.42 },
-  { key: 'automatizacion', label: 'Automatización', from: 0.42, to: 0.62 },
-  { key: 'webs', label: 'Webs y apps', from: 0.62, to: 0.82 },
-  { key: 'empezar', label: 'Empezar', from: 0.82, to: 1.0 },
+  { key: 'problema', from: 0, to: 0.22 },
+  { key: 'sistema', from: 0.22, to: 0.42 },
+  { key: 'automatizacion', from: 0.42, to: 0.62 },
+  { key: 'webs', from: 0.62, to: 0.82 },
+  { key: 'empezar', from: 0.82, to: 1.0 },
 ] as const
 
 export function activeActIndex(p: number): number {
