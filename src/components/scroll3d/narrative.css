@@ -24,6 +24,14 @@
   display: block;
 }
 
+.canvas-fallback-mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .act-overlay-position {
   position: absolute;
   inset: 0;
@@ -37,6 +45,10 @@
   width: min(34vw, 300px);
   height: min(34vw, 300px);
   opacity: 0;
+}
+
+.node-shapes {
+  filter: drop-shadow(0 3px 8px rgba(14, 13, 10, 0.45));
 }
 
 .screen-rect {

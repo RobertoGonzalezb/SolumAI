@@ -5,6 +5,7 @@ import ScreensOverlay from './ScreensOverlay'
 import ActRail from './ActRail'
 import TextColumn from './TextColumn'
 import StaticFallback from './StaticFallback'
+import CanvasErrorBoundary from './CanvasErrorBoundary'
 import './narrative.css'
 
 const LazyNarrativeCanvas = lazy(() => import('./NarrativeCanvas'))
@@ -12,11 +13,21 @@ const LazyNarrativeCanvas = lazy(() => import('./NarrativeCanvas'))
 const INITIAL_FRAME: Frame = new NarrativeDriver().update(0)
 const COMPACT_BREAKPOINT = 780
 
-// Solo prefers-reduced-motion saca el WebGL por completo. El ancho ya no
-// decide "3D sí/no" -- decide qué tan liviana es la escena (ver isCompact).
+function hasWebGL(): boolean {
+  try {
+    const canvas = document.createElement('canvas')
+    return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'))
+  } catch {
+    return false
+  }
+}
+
+// prefers-reduced-motion o falta de soporte real de WebGL sacan el 3D por
+// completo. El ancho ya no decide "3D sí/no" -- decide qué tan liviana es
+// la escena (ver isCompact).
 function computeEnable3D(): boolean {
   if (typeof window === 'undefined') return false
-  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches && hasWebGL()
 }
 
 function computeIsCompact(): boolean {
@@ -123,9 +134,11 @@ export default function ScrollNarrative() {
     <section className={`narrative${isCompact ? ' is-compact' : ''}`} ref={containerRef}>
       <div className="narrative-sticky">
         <div className="narrative-left">
-          <Suspense fallback={null}>
-            <LazyNarrativeCanvas frameRef={frameRef} invalidateRef={invalidateRef} isCompact={isCompact} />
-          </Suspense>
+          <CanvasErrorBoundary>
+            <Suspense fallback={null}>
+              <LazyNarrativeCanvas frameRef={frameRef} invalidateRef={invalidateRef} isCompact={isCompact} />
+            </Suspense>
+          </CanvasErrorBoundary>
           <NodeOverlay ref={nodeOverlayRef} />
           <ScreensOverlay ref={screensOverlayRef} />
           <ActRail activeAct={activeAct} />
